@@ -1,0 +1,10 @@
+  Listing of: comb
+  Located in: /home/hrapgc/Rstuff/Gems
+Last updated: 23/07/1997 
+**************************************
+
+"comb" <-
+function(N, x)
+{
+    gamma(N + 1)/gamma(x + 1)/gamma(N - x + 1)
+}

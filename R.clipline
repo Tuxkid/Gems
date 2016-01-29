@@ -1,0 +1,34 @@
+  Listing of: clipline
+  Located in: /home/hrapgc/Rstuff/Gems
+Last updated: 27/06/1998 
+**************************************
+
+"clipline" <-
+function(xlim, ylim, a, b, funlog = function(x)
+x, unlog = function(x)
+x, lty = 1, lwd = 1)
+{
+    x0 <- xlim[1]
+    y0 <- a + b * funlog(x0)
+    x1 <- xlim[2]
+    y1 <- a + b * funlog(x1)
+    if(y0 < ylim[1]) {
+       y0 <- ylim[1]
+       x0 <- unlog((ylim[1] - a)/b)
+    }
+    else if(y0 > ylim[2]) {
+       y0 <- ylim[2]
+       x0 <- unlog((ylim[2] - a)/b)
+    }
+    if(y1 < ylim[1]) {
+       y1 <- ylim[1]
+       x1 <- unlog((ylim[1] - a)/b)
+    }
+    else if(y1 > ylim[2]) {
+       y1 <- ylim[2]
+       x1 <- unlog((ylim[2] - a)/b)
+    }
+    cat("     Join (", round(x0, 3), round(y0, 3), ") to (", round(x1, 3), 
+       round(y1, 3), ")", fill = T)
+    lines(c(x0, x1), c(y0, y1), lty = lty, lwd = lwd)
+}

@@ -1,0 +1,11 @@
+  Listing of: make.df
+  Located in: /home/hrapgc/Rstuff/Gems
+Last updated: 01/04/1997 
+**************************************
+
+"make.df" <-
+function(text.file, ...)
+{
+# Making a dataframe from a text file and using tab separators
+    read.table(text.file, T, as.is = T, sep = "\t", row.names = NULL, ...)
+}

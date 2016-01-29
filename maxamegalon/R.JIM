@@ -1,0 +1,18 @@
+  Listing of: JIM
+  Located in: /home/pat/Rstuff/Gems
+Last updated: 04/02/2002 
+**************************************
+
+"JIM" <-
+function()
+{
+  ## Purpose: Loads Jim Lindsay's libraries for gnlm
+  ## ----------------------------------------------------------------------
+  ## Arguments:
+  ## ----------------------------------------------------------------------
+  ## Author: Zaphod Beeblebrox, Date:  4 Feb 2002, 07:57
+
+library(rmutil, lib.loc = "/home/pat/Rstuff/library/")
+library(gnlm, lib.loc = "/home/pat/Rstuff/library/")
+
+}

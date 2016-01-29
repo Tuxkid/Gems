@@ -1,0 +1,35 @@
+occurrence <-
+structure(function(x, char = " ", positions = 1)
+{
+### Finds positions of specified occurrences of a  character (char) in a 
+###  character string (x), or vector thereof
+                                        #
+### Default is to find the first occurrence.  A vector of occurrences can be given
+    if(!is.character(x)) x <- as.character(x)
+    z <- as.list(x)
+    find.gaps <- function(a, b)
+    {
+       size <- 1:nchar(a)
+       size[substring(a, 1:nchar(a), 1:nchar(a)) == b]
+    }
+    y <- lapply(z, function(w)
+    find.gaps(w, char))
+    longest <- max(sapply(y, length))
+    names(y) <- paste(1:length(y))    #
+# if the number of occurrences is not the same for all elenents...
+    if(any(diff((sapply(y, length)))) > 0) {
+# Fix up odd ones
+       short.y <- names(y[sapply(y, length) < longest])
+       for(i in short.y) {
+          short.y.len <- length(unlist(y[[i]]))
+          y[[i]] <- c(unlist(y[[i]]), rep(NA, (longest - short.y.len)))
+       }
+    }
+    if(max(positions) > longest) {
+       positions <- positions[!(positions > longest)]
+       cat(paste("No more than", longest, "of such character in any element\n")
+          )
+    }
+    t(matrix(unlist(y), byrow = F, nc = length(y)))[, positions]
+}
+, comment = "26/01/1999")

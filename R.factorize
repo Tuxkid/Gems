@@ -1,0 +1,12 @@
+  Listing of: factorize
+  Located in: /home/hrapgc/Rstuff/Gems
+Last updated: 14/12/1998 
+**************************************
+
+"factorize" <-
+function(n)
+{
+    p <- n/(z <- 1:ceiling(sqrt(n)))
+    z <- z[trunc(p) == p]
+    unique(c(z, rev(n/z)))
+}

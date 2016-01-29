@@ -1,0 +1,51 @@
+  Listing of: unfactor
+  Located in: /home/hrapgc/Rstuff/Gems
+Last updated: 23/11/1998 
+**************************************
+
+"unfactor" <-
+function(x, cols = "every.factor.column", notify = F)
+{
+###Converts factors back to numerics or character vectors
+###
+### A dataframe (or vector) of the same dimensions and names is returned
+### Default is to change all factor columns 
+### Alternatively, specific columns can be specified
+###
+### notify:  Notify that no factors need changing? 
+### Vectors have to be handled differently:
+xx_x
+onecol <- is.null(dim(xx))
+    if(is.null(dim(xx))) {
+       xx <- as.data.frame(xx)
+       cols <- 1
+    }
+### Handling data frames:
+    if(is.numeric(cols))
+       change.cols <- cols
+    else {
+       if(cols == "every.factor.column") {
+          fact.cols <- check.fact(xx)
+          change.cols <- find.pos(T, fact.cols)    ###
+### (a numerical vector of column numbers that are to be changed)
+       }
+       else change.cols <- find.pos(cols, names(xx))
+    }
+    if(length(change.cols) == 0 & notify)
+       cat(paste("No factors to change in", deparse(substitute(x)), "\n"))
+    else {
+       options(warn = -1)
+       on.exit(options(warn = 0))
+       for(i in change.cols) {
+          levels.i <- levels(xx[[i]])
+          level.nos <- as.numeric(levels.i)
+          numbers <- ifelse(any(is.na(level.nos)), F, T)
+          if(numbers)
+             xx[, i] <- as.numeric(I(as.character(xx[, i])))
+          else xx[, i] <- I(as.character(xx[, i]))
+       }
+    }
+    if(onecol)
+       xx <- as.vector(unlist(xx))
+    xx
+}

@@ -1,0 +1,13 @@
+  Listing of: formula.variables
+  Located in: /home/hrapgc/Rstuff/Gems
+Last updated: 10/10/1997 
+**************************************
+
+"formula.variables" <-
+function(myformula, unwanted = NULL)
+{
+    ops <- c("~", "+", "-", "*", "|", "I", "(", ")", "sqrt", "log", "exp", 
+       "logit", "cloglog", "ang", unwanted)
+    out <- unlist(myformula)
+    out[!(out %in% ops)]
+}

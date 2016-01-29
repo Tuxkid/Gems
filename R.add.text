@@ -1,0 +1,34 @@
+  Listing of: add.text
+  Located in: /home/hrapgc/Rstuff/Gems
+Last updated: 11/07/1997 
+**************************************
+
+"add.text" <-
+function(xp = 0.5, yp = 0.5, tex = NULL, ygap = 0.05, cex = 0.8, adj = 0, font
+     = 1, srt = 0, ...)
+{
+# Cut down from bar.legs: used only for text; can also be rotated
+# labels is character vector of legend text
+# the length of tex sets the length of other vectors
+# 
+# 
+# Establish positions in page co-ordinates [0,1] then use regular text function
+    uu <- par()$usr
+    xd <- diff(uu[1:2])
+    yd <- diff(uu[3:4])
+    yp <- yp - (seq(along = tex) - 1) * ygap
+    if(length(xp) == 1)
+       xp <- rep(xp, length(tex))
+    if(length(cex) == 1)
+       cex <- rep(cex, length(xp))
+    if(length(adj) == 1)
+       adj <- rep(adj, length(xp))
+    if(length(font) == 1)
+       font <- rep(font, length(xp))
+    xh <- uu[1] + xd * xp
+    yh <- uu[3] + yd * yp
+    for(i in 1:length(tex)) {
+       text(xh[i], yh[i], tex[i], adj = adj[i], cex = cex[i], font = font[i], 
+          srt = srt, ...)
+    }
+}

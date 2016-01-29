@@ -1,0 +1,17 @@
+  Listing of: llibrary
+  Located in: /home/pat/Rstuff/Gems
+Last updated: 12/04/2002 
+**************************************
+
+"llibrary" <-
+function(x)
+{
+  ## Purpose:  Loads a "local" library as distinct from the main ones.
+  ## ----------------------------------------------------------------------
+  ## Arguments:
+  ## ----------------------------------------------------------------------
+  ## Author: Zaphod Beeblebrox, Date: 12 Apr 2002, 09:20
+
+  library(as.character(substitute(x)), character.only = TRUE,
+          lib.loc = "/home/pat/Rstuff/library")
+}

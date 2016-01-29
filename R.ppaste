@@ -1,0 +1,10 @@
+  Listing of: ppaste
+  Located in: /home/hrapgc/Rstuff/Gems
+Last updated: 11/02/1998 
+**************************************
+
+"ppaste" <-
+function(...)
+{
+    paste(..., sep = "")
+}

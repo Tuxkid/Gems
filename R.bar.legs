@@ -1,0 +1,110 @@
+  Listing of: bar.legs
+  Located in: /home/hrapgc/Rstuff/Gems
+Last updated: 03/10/1998 
+**************************************
+
+"bar.legs" <-
+function(xp = 0.5, yp = 0.5, ebv = NULL, labs = NULL, colour = F, pchs = 0:10, 
+    ltys = iff(colour, rep(1, 10), 1:9), line.break = 0, cols = iff(colour, 1:
+    10, rep(1, 20)), wid = 0.007, eq.tex.gap = T, ygap = ifelse(eq.tex.gap, 
+    0.05, 0.02), xgap = 0.01, leg.cex = 0.6, point.cex = 0.8, adj = 0, font = 
+    ifelse(hershey, vfont = c("sans serif", "bold"), 1), line.leng = ifelse(
+    is.null(pchs), 0.03, 0.05), mixed = F, bar.lwd = par()$lwd, line.lwd = par(
+    )$lwd, pt.lwd = bar.lwd, pt.lty = 1)
+{
+### For placing legends with error bars and adjusting the spaces between lines
+###
+### xp and yp are x & y positions to begin
+### ebv is vector of errorbars widths: or a list of two vectors (max and min)
+### labels is character vector of legend text
+### wid is "width" of errorbars: adjusts eps in errorbars function called from this one
+### ygap space between elements of legend
+### pchs is vector of plotting characters 
+### mixed is T when mixed.text is to be used for mixing characters in labs
+### 
+###  font is becomes vfont if herschey fonts are to be used, in which case, it is a
+###  vector of two elements: otherwise a numeric single value.
+    uu <- par()$usr
+    xd <- diff(uu[1:2])
+    yd <- diff(uu[3:4])
+    xh <- uu[1] + xd * xp
+    yh <- uu[3] + yd * yp
+    if(is.vector(labs))
+       labs <- as.list(labs)
+    hershey <- is.character(font)
+    if(is.null(ebv)) xh <- xh - xgap * xd    ### puts lines() back to xp
+    if(!is.list(ebv)) {
+### If ebv is a single vector, only one lot of error bars:
+       for(i in 1:length(labs)) {
+### If space between errorbars is to be made equal, start top of first error bar
+###  at beginning of legend. Otherwise, the legend text is at that position.
+### If errorbar spaces are to be equal, half adjustment is done before drawing one, 
+###  otherwise, all adjustment happens after drawing each one.
+          if(!eq.tex.gap) yh <- yh - ebv[i]    ### 
+          if(!is.null(ebv))
+             errorbars(xh, yh, ebv[i], eps = wid * xd, lwd = bar.lwd)
+          if(!is.null(pchs))
+             points(xh + (line.leng/2 + xgap) * xd, yh, pch = pchs[i], cex = 
+                point.cex, col = cols[i], lwd = pt.lwd, lty = pt.lty)
+          if(!is.null(ltys))
+             if(line.break > 0) {
+                {
+                   lines(xh + (c(0, line.leng/2 - line.break) + xgap) * xd, rep(
+                      yh, 2), lty = ltys[i], col = cols[i], lwd = line.lwd)
+                   lines(xh + (c(line.leng/2 + line.break, line.leng) + xgap) * 
+                      xd, rep(yh, 2), lty = ltys[i], col = cols[i], lwd = 
+                      line.lwd)
+                }
+             }
+             else lines(xh + (c(0, line.leng) + xgap) * xd, rep(yh, 2), lty = 
+                   ltys[i], col = cols[i], lwd = line.lwd)
+          if(!is.null(labs)) {
+             if(is.expression(labs[[i]]) & hershey) stop(
+                   "Hershey fonts cannot be used with expressions\n")    
+### Use herschey fonts, font becomes vfont: adj is a bit different too
+             if(hershey)
+                text(xh + (line.leng + xgap * 2) * xd, yh, labels = labs[[i]], 
+                   adj = c(adj, 0.5), cex = leg.cex, vfont = font)
+             else text(xh + (line.leng + xgap * 2) * xd, yh, labels = labs[[i]],
+                   adj = c(adj, 0.5), cex = leg.cex, font = font)
+          }
+### Move down the appropriate amount for the next one:
+          yh <- yh - ifelse(eq.tex.gap, 0, ebv[i]) - ygap * yd
+       }
+    }
+    else {
+### Two error bars, maximums and minimums are drawn 
+### Move starting point to allow for extra errorbar
+       xh <- xh + (xgap + wid) * xd
+       ebv1 <- ebv$max
+       ebv2 <- ebv$min
+       for(i in 1:length(labs)) {
+          if(!eq.tex.gap)
+             yh <- yh - ebv1[i]
+          errorbars(xh - (xgap + wid) * xd, yh, ebv1[i], eps = wid * xd, lwd = 
+             bar.lwd)
+          errorbars(xh, yh, ebv2[i], eps = wid * xd, lwd = bar.lwd)
+          if(!is.null(pchs))
+             points(xh + (line.leng/2 + xgap) * xd, yh, pch = pchs[i], cex = 
+                point.cex, col = cols[i], lwd = pt.lwd)
+          if(line.break > 0) {
+             {
+                lines(xh + (c(0, line.leng/2 - line.break) + xgap) * xd, rep(yh,
+                   2), lty = ltys[i], col = cols[i], lwd = line.lwd)
+                lines(xh + (c(line.leng/2 + line.break, line.leng) + xgap) * xd,
+                   rep(yh, 2), lty = ltys[i], col = cols[i], lwd = line.lwd)
+             }
+          }
+          else lines(xh + (c(0, line.leng) + xgap) * xd, rep(yh, 2), lty = ltys[
+                i], col = cols[i], lwd = line.lwd)
+          if(!is.null(labels)) {
+             if(mixed)
+                mixed.text(xh + (line.leng + xgap * 2) * xd, yh, labs[[i]], adj
+                    = adj, cex = leg.cex, vfont = vfont)
+             else text(xh + (line.leng + xgap * 2) * xd, yh, labs[[i]], adj = 
+                   adj, cex = leg.cex, vfont = vfont)
+          }
+          yh <- yh - ebv1[i] - ygap * yd
+       }
+    }
+}

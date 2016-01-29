@@ -1,0 +1,23 @@
+append.cols <-
+structure(function(data = natural.df, repeat.cols = 1:4, collapse.cols = 5:6, resp.id = 
+    "Resp.id", out.col = "Response")
+{
+# By default repeats the first four columns twice and 
+#    makes columns 5 and 6 into one
+    data <- as.data.frame(data)
+    if(is.numeric(repeat.cols))
+       repeat.cols <- names(data)[repeat.cols]
+    if(is.numeric(collapse.cols))
+       collapse.cols <- names(data)[collapse.cols]
+    repeat.df <- as.data.frame(data[, repeat.cols])
+    collapse.df <- data[, collapse.cols]
+    ind <- 1:nrow(repeat.df)
+    repeat.times <- ncol(collapse.df)
+    repeated.df <- as.data.frame(repeat.df[rep(ind, repeat.times),  ])
+    names(repeated.df) <- repeat.cols    # if only one column
+    repeated.df[, resp.id] <- rep(collapse.cols, rep(max(ind), repeat.times))
+    right <- unlist(collapse.df)
+    repeated.df[[out.col]] <- right
+    unfactor(repeated.df)
+}
+, comment = "30/04/2001")

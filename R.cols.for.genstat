@@ -1,0 +1,13 @@
+  Listing of: cols.for.genstat
+  Located in: /home/hrapgc/Rstuff/Gems
+Last updated: 12/04/1999 
+**************************************
+
+"cols.for.genstat" <-
+function(x, num = F)
+{
+# Returns a string of the column names to use in genstat
+# need only to change the opening and closing " and  to '
+    y <- names(x)
+    paste(y, collapse = ", ")
+}

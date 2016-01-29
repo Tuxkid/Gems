@@ -1,0 +1,20 @@
+  Listing of: list.to.data.frame
+  Located in: /home/hrapgc/Rstuff/Gems
+Last updated: 19/04/1997 
+**************************************
+
+"list.to.data.frame" <-
+function(x)
+{
+# 1) Test list element lengths are the same
+    lengths <- unlist(lapply(x, length))
+    len <- mean(lengths)
+    if(all(lengths == len)) {
+       attr(x, "class") <- "data.frame"
+       attr(x, "row.names") <- 1:len
+    }
+    else {
+       stop("list elements are not of same length")
+    }
+    x
+}

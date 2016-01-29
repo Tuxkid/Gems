@@ -1,0 +1,12 @@
+  Listing of: find.pos
+  Located in: /home/hrapgc/Rstuff/Gems
+Last updated: 11/01/1996 
+**************************************
+
+"find.pos" <-
+function(y, inn)
+{
+### Finds positions of "y" in a vector "inn"
+  x <- match(inn, y)
+  seq(along = x)[!is.na(x)]
+}

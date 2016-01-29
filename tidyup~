@@ -1,0 +1,6 @@
+### file to source from anywhere to add dates and the like
+catalogue()
+source('add.dates.sc') 
+save.image()
+text.lot()
+ source('write.fn.src') 

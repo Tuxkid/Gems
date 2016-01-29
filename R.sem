@@ -1,0 +1,14 @@
+  Listing of: sem
+  Located in: /home/hrapgc/Rstuff/Gems
+Last updated: 09/09/1995 
+**************************************
+
+"sem" <-
+function(x, na.rm = F)
+{
+    if(na.rm)
+       x <- x[!is.na(x)]
+    if(length(x) == 0)
+       NA
+    else sqrt(var(x)/length(x))
+}

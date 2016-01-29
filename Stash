@@ -1,0 +1,11 @@
+##
+#################################################################
+## Keep this code for making a vector of expressions
+#################################################################
+
+abs <- vector("expression", 3)
+ for(i in 1:3) labs[i] <-
+   substitute(expression(
+       group("(", k, ")") * "," ~~ l == len ~ italic("mm")
+       ), list(len = 2*i, k=i)
+              )    [2]

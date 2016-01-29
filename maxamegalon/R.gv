@@ -1,0 +1,18 @@
+  Listing of: gv
+  Located in: /home/pat/Rstuff/Gems
+Last updated: 21/03/2002 
+**************************************
+
+"gv" <-
+function(file = NULL)
+{
+  ## Purpose:  Starts Ghostview in the current directory
+  ## ----------------------------------------------------------------------
+  ## Arguments:
+  ## ----------------------------------------------------------------------
+  ## Author: Zaphod Beeblebrox, Date: 21 Mar 2002, 13:18
+if(is.null(file))
+  system("gv &")
+else system(paste("gv",file,"&"))
+
+}

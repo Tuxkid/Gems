@@ -1,0 +1,21 @@
+  Listing of: wipe
+  Located in: /home/pat/Rstuff/Gems
+Last updated: 02/03/2002 
+**************************************
+
+"wipe" <-
+function (x) 
+{
+  ## Purpose:  Removes the file in /tmp/ and sets source attribe to NULL
+  ## ----------------------------------------------------------------------
+  ## Arguments:
+  ## ----------------------------------------------------------------------
+  ## Author: Zaphod Beeblebrox, Date:  2 Mar 2002, 17:09
+  ob.name <- deparse(substitute(x))
+  attr.com <- ppaste("attr(", ob.name, ", \"source\") <- NULL\n")
+  tmp.com <- ppaste("rm /tmp/pat.", ob.name, ".R\n")
+  try(system(tmp.com))
+  write.com <- ppaste("write.function(", ob.name, ")")
+  cat("  Now run these commands:\n")
+  cat(paste(write.com, attr.com, sep = " ;"))
+}

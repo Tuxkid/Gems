@@ -1,0 +1,80 @@
+  Listing of: dmodes
+  Located in: /home/hrapgc/Rstuff/Gems
+Last updated: 30/03/2001 
+**************************************
+
+"dmodes" <-
+function(x = NULL, pos = 1, max = NULL, date.sort = T)
+{
+### Returns a Data frame showing modes of objects in the stated directory.
+### Can be sorted by Mode, Length, or Date in addition to default Object
+### A variation on this one is modes(). Made for lazy typists to sort by object name 
+### max is the maximum number of objects returned; useful if ls() is long and 
+###  you're only interested in the first few
+    if(is.null(x)) ls.o <- ls(pos = pos) else ls.o <- ls(pos = pos, pattern = x
+          )
+    if(!is.null(max) && max > length(ls.o))
+       print(paste("Only", length(ls.o), "match", x, "in", search()[pos]))
+    if(is.null(max) || (max > length(ls.o))) max <- length(ls.o)    #
+### Rearrange date information
+    date.chr <- NULL
+    for(i in seq(ls.o)) {
+       date.i <- comment(get(ls.o[i]))
+       if(is.null(date.i))
+          date.i <- "NA/NA/NA"
+       date.chr[i] <- date.i
+    }
+    
+    break.at <- occurrence(date.chr, "/", 1:2)
+    if(is.null(dim(break.at)))
+      break.at_matrix(break.at,nrow=1)
+    first <- break.at[, 1] - 1
+    second <- break.at[, 2] - 1
+    day <- as.numeric(substring(date.chr, 1, first))
+    month <- as.numeric(substring(date.chr, first + 2, second))
+    year <- as.numeric(substring(date.chr, second + 2))
+    ob.df <- unfactor(data.frame(Object = ls.o, Day = day, Mon = month, Year = 
+       year))
+    if(date.sort)
+       xx <- df.sort(ob.df, 2:4, backwards = TRUE)[seq(max),  ]
+    else xx <- ob.df
+    xx$Date <- date.chr[as.numeric(row.names(xx))]
+    options(warn = -1)
+    on.exit(options(warn = 0))
+    out <- list()
+    dummy <- matrix(nc = 3, nr = 3)    # a non-null last list element
+    out$Object <- c(xx$Object, "dummy")
+    objs.mat <- cbind(out$Object)
+    out$Mode <- apply(objs.mat, 1, function(x)
+    mode(get(x)))    #
+### Dimension information of dataframes and matrices
+    dimensions <- apply(objs.mat, 1, function(x)
+    dim(get(x)))
+    y <- dimensions
+    if(!is.null(y)) {
+       if(is.list(y)) {
+          y[unlist(lapply(y, is.null))] <- list(c(NA, NA))
+          z <- t(matrix(unlist(y), byrow = F, nc = length(y)))
+          z[is.na(z)] <- "-"
+          out$Rows <- z[, 1]
+          out$Cols <- z[, 2]
+       }
+       else {
+### otherwise it's a matrix which will work differently (not checked in R version)
+          out$Rows <- y[1,  ]
+          out$Cols <- y[2,  ]
+       }
+    }
+    else out$Cols <- out$Rows <- rep("-", length(out$Object))    #  
+    out$Len <- apply(objs.mat, 1, function(x)
+    length(get(x)))    #
+    out$Date <- xx$Date
+    long.name <- max(c(7, nchar(out$Object)))    #allow for shortnames
+    ob.spaces <- long.name/2 - 3
+    out$Mode[out$Mode == "list" & out$Rows != "-"] <- "dataframe"
+    out.df <- unfactor(as.data.frame(lapply(out, function(x)
+    x[seq(max)])), c("Object", "Mode"))
+    names(out.df) <- c(paste("Object", paste(rep(" ", ob.spaces), collapse = ""
+       )), "Mode  ", "Rows", "Cols", "Len", "Date    ")
+    out.df
+}

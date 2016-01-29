@@ -1,0 +1,8 @@
+  Listing of: relevel
+  Located in: /home/hrapgc/Rstuff/Gems
+Last updated: 03/09/1999 
+**************************************
+
+"relevel" <-
+function(x, ref, ...)
+UseMethod("relevel")

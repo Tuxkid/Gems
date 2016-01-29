@@ -1,0 +1,11 @@
+  Listing of: check.fact
+  Located in: /home/hrapgc/Rstuff/Gems
+Last updated: 21/09/1997 
+**************************************
+
+"check.fact" <-
+function(df)
+{
+###Checks if columns of dataframes are factors:
+  sapply(df, is.factor)
+}

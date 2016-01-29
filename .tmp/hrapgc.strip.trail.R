@@ -1,0 +1,12 @@
+strip.trail <-
+structure(function(x, trail = " ")
+{
+### This function strips away trailing characters of specified value
+### from character vectors: everything from the first occurrence of the trail
+###  character is removed
+    begin.spaces <- find.first(x, trail)
+    need.strip <- !is.na(begin.spaces)
+    x[need.strip] <- substring(x[need.strip], 1, begin.spaces[need.strip] - 1)
+    x
+}
+, comment = "23/03/1997")

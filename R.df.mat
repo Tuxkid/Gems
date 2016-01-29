@@ -1,0 +1,13 @@
+  Listing of: df.mat
+  Located in: /home/hrapgc/Rstuff/Gems
+Last updated: 18/10/1996 
+**************************************
+
+"df.mat" <-
+function(df)
+{
+# Coerces a dataframe to a matrix, retaining levels instead of codes 
+#  for any factors: see unfactor()
+    mat <- as.matrix(unfactor(df))
+    mat
+}

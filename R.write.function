@@ -1,0 +1,20 @@
+  Listing of: write.function
+  Located in: /home/hrapgc/Rstuff/Gems
+Last updated: 30/03/2001 
+**************************************
+
+"write.function" <-
+function(x)
+{
+### writes a function to file
+    fun.name <- as.character(substitute(x))
+    filedate <- comment(get(fun.name))
+    location <- system("pwd", TRUE)
+    file <- paste("R", fun.name, sep = ".")
+    write(paste("  Listing of:", fun.name), file = file)
+    write(paste("  Located in:", location), file = file, append = TRUE)
+    write(paste("Last updated:", filedate, 
+       "\n**************************************\n"), file = file, append = 
+       TRUE)
+    dump(fun.name, file = file, append = TRUE)
+}
