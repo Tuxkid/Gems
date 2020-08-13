@@ -1,0 +1,530 @@
+---
+title: "Second look at the `rtweet` package"
+author: "Patrick Connolly"
+date: "`r format(Sys.time(), '%a %d/%m/%Y %H:%M')`"
+output: html_document
+---
+<style type="text/css">
+.main-container {
+  max-width: 2800px;
+  margin-left: auto;
+  margin-right: auto;
+}
+</style>
+
+
+```{r global_options, echo=FALSE}
+knitr::opts_chunk$set(tidy=TRUE,
+                      warning=FALSE, 
+                      message=FALSE,
+                      cache=FALSE,
+                      dpi=600)
+```
+# Scraping tweets from Twitter
+
+Information derived from useR2019_tutorial which has been copied shamelessly
+
+## Packages to install
+
+Install packages `httr`, `jsonlite` if not already installed by uncommenting lines from the following code
+
+### working with APIs
+
+```{r echo = TRUE}
+## install.packages("httr")
+
+## install.packages("httpuv") # not sure if this one is needed yet
+## install.packages("jsonlite")
+```
+Likewise with 
+
+### Twitter
+```{r}
+## install.packages("rtweet")
+```
+
+Could be doing media other than twitter, but not yet.
+
+### text analytics
+``` {r} 
+## install.packages("tidyverse")
+
+## install.packages("tidytext")
+## install.packages("devtools")
+## devtools::install_github("flovv/RoogleVision")
+
+ ## install.packages("wordcloud2")
+ ## install.packages("WriteXLS")
+require(httpuv)
+require(dplyr)
+
+```
+### image analytics
+``` {r}
+## install.packages("RoogleVision")
+
+```                
+
+(will likely require other dependencies)
+
+### sundry additional packages
+```{r}
+## install.packages("knitr")
+
+## install.packages("plotly")
+
+## bringLibrary("3.5.0", "3.6.3", "~/local")
+## update.packages(ask = FALSE, checkBuilt = TRUE)
+```
+
+### Load packages
+```{r, cache = TRUE}
+library(rtweet)
+library(instaR)
+library(tidyverse)
+library(tidytext)
+ library(wordcloud2)
+library(RoogleVision)
+library(ggplot2)
+library(jsonlite)
+require(knitr)
+require(kableExtra)
+require(devtools)
+
+devtools::install_github("flovv/RoogleVision")
+```
+
+## Twitter user names that somehow relate to Zespri
+
+ can be found as so:
+
+
+```{r, cache = TRUE}
+Zusrs <- search_users("#zespri", n = 1000)
+dim(Zusrs)
+colnames(Zusrs)
+
+
+```
+which seem to be the same names of lots of other data frames returned from searches.
+
+library(PFRTextMiner)
+
+require(purrr)
+require(tidytext)
+
+
+## GE insights
+
+```{r new search,  cache = TRUE}
+genz <- rtweet::search_tweets(q = "GE new zealand", n = 2500, lang="en")
+```
+
+```{r gework, cache= TRUE}
+retweet.cols <- c("screen_name", "created_at", "text",  "retweet_text",   
+"retweet_created_at",   "is_retweet",  "retweet_screen_name", 
+"retweet_name",  "retweet_location",  "retweet_description", "name")
+genz.retweet1 <- genz[1:15, retweet.cols[c(1, 5, 2, 7, 8, 11)]]
+genz.retweet2 <- genz[1:15, retweet.cols[c(2, 6, 5, 1)]]
+genz.retweet3 <- genz[1:15, retweet.cols[c(3, 6, 10,11)]]
+ genz.retweet <- genz[, retweet.cols]
+knitr::kable(genz.retweet3, format = "html", row.names = TRUE) %>% 
+   kableExtra::kable_styling(full_width = FALSE, position = "left")
+knitr::kable(genz.retweet2, format = "html", row.names = TRUE) %>% 
+   kableExtra::kable_styling(full_width = FALSE, position = "left")
+knitr::kable(genz.retweet1, format = "html", row.names = TRUE) %>% 
+   kableExtra::kable_styling(full_width = FALSE, position = "left")
+
+```
+#### Not very informative
+
+
+```{r check on one user,  cache = TRUE}
+
+genz.lindsay <- genz.retweet[genz.retweet$name == "Lindsay", 
+c("name", "created_at", "retweet_created_at", "retweet_screen_name", "retweet_name")]
+
+knitr::kable(genz.lindsay, format = "html", row.names = TRUE) %>% kableExtra::kable_styling(full_width = FALSE, position = "left")
+
+val <-  rtweet::search_tweets(q = "Valeria", n = 2500, lang="en")
+dim(val)
+val.df <- val[1:15, retweet.cols[c(3, 6, 10,11)]]
+knitr::kable(val.df, format = "html", row.names = TRUE) %>% kableExtra::kable_styling(full_width = FALSE, position = "left")
+
+
+```
+### 
+
+
+
+### exhibits strange column width if attempt is made to show every row
+
+## Check what hash tags are used in relation to GM foods
+
+
+```{r check on hash tags,  cache = TRUE}
+
+gmft <-  rtweet::search_tweets(q = "#GM foods", n = 2500)
+dim(gmft)
+
+```
+
+### no  entry that has text that is real English
+
+```{r no text, cache = TRUE}
+## if(nrow(gmft) > 0) 
+## gmft[, c("text", "lang")]
+
+## gm.dft <- gmft[, c(c(names(Zusrs)[c(3, 17, 50, 75, 61)]), "lang")]
+## knitr::kable(gm.dft, format = "html", row.names = TRUE) %>% kableExtra::kable_styling(full_width = FALSE, position = "left")
+
+## gmf$created_at 
+## gmf$retweet_created_at 
+
+  gmf <-  rtweet::search_tweets(q = "GM foods", n = 2500, lang="en")
+dim(gmf)
+
+
+```
+### only 134. Still not enough to do much with
+
+```{r gm chunk,  cache = TRUE}
+
+gmff <-  rtweet::search_tweets(q = "#GeneticallyModified", n = 2500, lang="en")
+dim(gmff)
+
+```
+### only 10
+
+```{r gm2 chunk, cache = TRUE} 
+
+gmff$name
+gmff$screen_name
+
+```
+### Show all of small table with columns relating to retweeting
+
+```{r  gm3 chunk, cache = TRUE}
+gmff.df <- gmff[, retweet.cols] %>% arrange(created_at)
+
+knitr::kable(gmff.df[, c("text", "created_at", "retweet_created_at", "is_retweet", "name", "retweet_text" )], format = "html", row.names = TRUE) %>% kableExtra::kable_styling(full_width = FALSE, position = "left")
+
+```
+### Look at some of the many columns
+
+```{r GMO, cache = TRUE}
+
+gmo <-  rtweet::search_tweets(q = "#GMO", n = 2500, lang="en") %>% arrange(created_at)
+dim(gmo)
+gmoT <- tail(gmo)
+
+```
+## Look at 15 rows of some other columns
+
+```{r, echo = FALSE}
+knitr::kable(gmo[1:15, c("text", "name", "retweet_text", "created_at", "retweet_created_at")], format = "html", row.names = TRUE) %>% kableExtra::kable_styling(full_width = FALSE, position = "left")
+
+```
+### And at the bottom of the table
+	
+```{r cache = TRUE}
+
+knitr::kable(gmoT[, c("text", "name", "retweet_text", "created_at", "retweet_created_at")], format = "html", row.names = TRUE) %>% kableExtra::kable_styling(full_width = FALSE, position = "left")
+
+### table(with(gmf, created_at - retweet_created_at), exclude = NULL)
+
+## ```
+library(PFRTextMiner)
+## df <- rtweet::search_tweets("#GMO", n = 2500., lang = "en")# %>% arrange(created_at)
+
+## # Process text column.
+## df$processed_text <- PFRTextMiner::process_text(df$text)
+
+## gmo_sent <- PFRTextMiner::mine_sentiment(text = gmo$text, by = "sentence")
+
+```
+
+### Create a new dataframe with a new column of words, not sentences 
+
+```{r unnesting, cache = TRUE}
+
+text_tok <- tidytext::unnest_tokens(tbl = gmo, 
+                         output = word, 
+                         input = text) 
+dim(text_tok)
+names(text_tok)
+
+## look at some of that
+display_tok <- text_tok[1:120, c("created_at", "word", "is_retweet")]
+
+knitr::kable(display_tok, format = "html", row.names = TRUE) %>% 
+       kableExtra::kable_styling(full_width = FALSE, position = "left") 
+
+```
+### (The same `retweet_created_at` appears numerous times since the consecutive rows come from the same sentence)
+### What's different in column names?
+```{r}
+names_df <- data.frame(Tok = names(text_tok), Znorm = names(Zusrs))
+
+names_df <- within(names_df,
+                   TZ <- Tok %in% Znorm)
+names_df <- within(names_df,
+                   ZT <- Znorm %in% Tok)
+
+## table(names(text_tok) %in% names(Zusrs))
+knitr::kable(names_df, format = "html", row.names = TRUE) %>% 
+   kableExtra::kable_styling(full_width = FALSE, position = "left") 
+
+names(text_tok)[!names(text_tok) %in% names(Zusrs)]
+names(Zusrs)[!names(Zusrs) %in% names(text_tok)]
+
+```
+#####  As is what's going on with `... output = word, input = text)`
+
+##### No  surprises there. 
+
+
+
+#### Observed effect of day of week on the number of GMO tweets
+
+```{r DOW  frequency in GMO data, cache =  TRUE}
+
+gmoT <- within(gmo, dow <- format(created_at, format = "%w")) %>% as.data.frame %>%
+    select(text, dow, screen_name)
+days <- c("Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday")
+day.mat <- cbind("dow" = as.character(0:6),   "DOW" = days)
+gmoT <- within(gmoT, DOW <- lookup(x = dow, y = day.mat))
+gmoT <- within(gmoT, DOW <- factor(DOW, levels = days, labels = days))
+
+
+gmo.dow.tab <- t(with(gmoT, table(DOW)))
+
+knitr::kable(gmo.dow.tab, format = "html", row.names = FALSE) %>% 
+   kableExtra::kable_styling(full_width = FALSE, position = "left")
+
+```
+
+
+### Get individual words from the `text` column, i.e. unnesting 
+
+
+```{r unnestinmg, cache = TRUE}
+words_df <- tidytext::unnest_tokens(tbl = gmoT, 
+                          output = word, 
+                          input = text) %>%
+    count(screen_name, DOW, word, sort = TRUE)
+## dim(words_df)
+## ### omit stop words
+## omitwords <-  tm::stopwords("en")
+## words_df  <- words_df %>%
+##             filter(!omitwords)
+dim(words_df)
+   
+
+Total.words <- words_df %>%
+    group_by(screen_name, DOW) %>%
+    summarise(total = sum(n))
+
+
+
+tweeter_words <- left_join(words_df, Total.words)
+str(tweeter_words)
+dim(tweeter_words)
+head(tweeter_words)
+tail(tweeter_words)
+
+library(ggplot2)
+
+```
+
+```{r "setting the figure height", fig.dim = c(9, 6), out.width = "60%"}
+
+library(ggplot2)
+library(tidytext)
+
+ggplot2::ggplot(tweeter_words, aes(n/total, fill = DOW)) +
+  geom_histogram(show.legend = TRUE, binwidth = 0.025) + 
+  labs(title = "Histogram #GMO Term frequency") + 
+  facet_wrap(~DOW, ncol = 3, scales = "free_y")
+
+```
+
+
+#### similar pattern each day but quite variable in scale
+
+##  **************************************************
+
+
+## Try another query
+
+### #cannabis
+
+
+```{r frequency  term , cache =  TRUE}
+
+###dim = c(9, 6), out.width = "60%"}
+thc <-  rtweet::search_tweets(q = "#cannabis", n = 85000, lang="en") %>% 
+   arrange(created_at)
+
+thcT <- within(thc, dow <- format(created_at, format = "%w")) %>% as.data.frame %>%
+    select(text, dow, screen_name)
+days <- c("Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday")
+day.mat <- cbind("dow" = as.character(0:6),   "DOW" = days)
+thcT <- within(thcT, DOW <- lookup(x = dow, y = day.mat))
+thcT <- within(thcT, DOW <- factor(DOW, levels = days, labels = days))
+
+```
+
+```{r print small table, cache = TRUE}
+
+thc.dow.tab <- t(with(thcT, table(DOW)))
+
+knitr::kable(thc.dow.tab, format = "html", row.names = FALSE, 
+   caption = "A table of frequency of occurance of DOW") %>% 
+   kableExtra::kable_styling(full_width = FALSE, position = "left")
+
+```
+
+```{r unnesting2, cache = TRUE}
+
+words_df <- unnest_tokens(tbl = thcT, 
+                          output = word, 
+                          input = text) %>%
+    count(screen_name, DOW, word, sort = TRUE)
+
+Total.words <- words_df %>%
+    group_by(screen_name, DOW) %>%
+    summarise(total = sum(n))
+
+tweet_words_thc <- left_join(words_df, Total.words)
+
+tweeter_words <- left_join(words_df, Total.words)
+str(tweeter_words)
+dim(tweeter_words)
+head(tweeter_words)
+tail(tweeter_words)
+
+library(ggplot2)
+tweet_words_thc <- tweet_words_thc %>% bind_tf_idf(word, DOW, n)
+
+```
+
+```{r "setting the figure height: works now", fig.dim = c(7, 9), out.width="60%"}
+
+library(ggplot2)
+library(tidytext)
+
+ggplot2::ggplot(tweeter_words, aes(n/total, fill = DOW)) +
+  geom_histogram(show.legend = TRUE, binwidth = 0.05) +
+  labs(title =  "Histogram Term frequency #cannabis") +
+  facet_wrap(~DOW, ncol = 2, scales = "free_x")
+
+```
+
+
+#### (Shows the under-representation of Tuesday data points)
+
+```{r lucky 2nd last, echo = TRUE, out.dim = c(7, 23), out.width="60%"}
+tweet_words_thc %>% str
+tweet_words_thc %>%
+  arrange(desc(tf_idf)) %>% 
+  mutate(word = factor(word, levels = rev(unique(word)))) %>% 
+  group_by(DOW) %>% 
+  top_n(5) %>% 
+  ungroup() %>%
+  ggplot(aes(word, tf_idf, fill = DOW, binwidth = 0.05)) +
+  geom_col(show.legend = FALSE) +
+  labs(x = NULL, y = "tf_idf", title = "#cannabis Term frequency Inverted document frequency") +
+  facet_wrap(~DOW, ncol = 2, scales = "free_y") +
+  coord_flip()
+
+## ```
+
+## thcT <- within(thc, dow <- format(created_at, format = "%w")) %>% as.data.frame %>%
+##     select(text, dow, screen_name)
+## ## days <- c("Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday")
+## ## day.mat <- cbind("dow" = as.character(0:6),   "DOW" = days)
+## thcT <- within(thcT, DOW <- lookup(x = dow, y = day.mat))
+## thcT <- within(thcT, DOW <- factor(DOW, levels = days, labels = days))
+
+
+
+
+
+
+
+## words_df <- unnest_tokens(tbl = thcT, 
+##                           output = word, 
+##                           input = text) %>%
+##     count(screen_name, DOW, word, sort = TRUE)
+
+## Total.words <- words_df %>%
+##     group_by(screen_name, DOW) %>%
+##     summarise(total = sum(n))
+
+
+
+## tweeter_words <- left_join(words_df, Total.words)
+## str(tweeter_words)
+## dim(tweeter_words)
+## head(tweeter_words)
+## tail(tweeter_words)
+
+## library(ggplot2)
+
+```
+
+
+```{r, echo = TRUE, fig.width = 10, fig.height = 3, out.width="60%"}
+words_df <- tidytext::unnest_tokens(tbl = thcT, 
+                          output = word, 
+                          input = text) %>%
+    count(DOW, word, sort = TRUE)
+
+Total.words <- words_df %>%
+    group_by(DOW) %>%
+    summarise(total = sum(n))
+
+tweet_words <- left_join(words_df, Total.words)
+library(ggplot2)
+
+ggplot(tweet_words, aes(n/total, fill = DOW)) +
+  geom_histogram(show.legend = TRUE) +
+  xlim(NA, 0.0009) +
+  facet_wrap(~DOW, ncol = 3, scales = "free_y")
+
+tweet_words <- tweet_words %>%
+  bind_tf_idf(word, DOW, n)
+
+tweet_words
+tweet_words %>%
+  select(-total) %>%
+  arrange(desc(tf_idf))
+
+```
+
+```{r lucky 2nd to last, echo = TRUE}
+##, out.dim = c(7, 3)}
+tweet_words %>% str
+tweet_words %>%
+  arrange(desc(tf_idf)) %>%
+  mutate(word = factor(word, levels = rev(unique(word)))) %>% 
+  group_by(DOW) %>% 
+  top_n(5) %>% 
+  ungroup() %>%
+  ggplot(aes(word, tf_idf, fill = DOW, binwidth = 0.01)) +
+  geom_col(show.legend = FALSE) +
+  labs(x = NULL, y = "tf-idf") +
+  facet_wrap(~DOW, ncol = 3, scales = "free") +
+  coord_flip()
+
+
+knitr::kable(thc[1:50, c("text", "created_at", "retweet_created_at", "is_retweet", "name", "retweet_text" )], format = "html", row.names = TRUE) %>% kableExtra::kable_styling(full_width = FALSE, position = "left")
+
+
+```
+
+
+
+
+---
