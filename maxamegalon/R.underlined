@@ -1,0 +1,14 @@
+  Listing of: underlined
+  Located in: /home/pat/Rstuff/Gems
+Last updated: 21/01/2002 
+**************************************
+
+"underlined" <-
+function(x, y, label, ...){
+## Underline text in a plot
+## from R-help    
+    text(x, y, label, ...)
+    sw <- strwidth(label)
+    sh <- strheight(label)
+    lines(x + c(-sw/2, sw/2), rep(y - 1.5*sh/2, 2))
+  }

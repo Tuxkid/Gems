@@ -1,0 +1,14 @@
+  Listing of: reorder
+  Located in: /home/hrapgc/Rstuff/Gems
+Last updated: 12/07/2000 
+**************************************
+
+"reorder" <-
+function(x, y, z)
+{
+### Reorders a data frame x, so that a column y is now in the order in z
+    indx <- NULL
+    for(i in z)
+       indx <- c(indx, find.pos(i, x[[y]]))
+    x[indx,  ]
+}

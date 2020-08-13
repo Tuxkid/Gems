@@ -1,0 +1,13 @@
+  Listing of: levels.for.genstat
+  Located in: /home/hrapgc/Rstuff/Gems
+Last updated: 18/09/1999 
+**************************************
+
+"levels.for.genstat" <-
+function(x, no.quotes = T)
+{
+# Returns a string of the factor levels to use in genstat
+# paste from between " marks
+# change the opening and closing "   to ' if quotes are wanted
+    paste(unique(x), collapse = ifelse(no.quotes, ",", "','"))
+}

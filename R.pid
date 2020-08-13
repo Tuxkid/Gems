@@ -1,0 +1,10 @@
+  Listing of: pid
+  Located in: /home/hrapgc/Rstuff/Gems
+Last updated: 24/05/2001 
+**************************************
+
+"pid" <-
+function()
+
+### current PID
+  system("echo $PPID",intern=T)

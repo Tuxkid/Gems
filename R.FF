@@ -1,0 +1,44 @@
+  Listing of: FF
+  Located in: /home/hrapgc/Rstuff/Gems
+Last updated: 09/01/1998 
+**************************************
+
+"FF" <-
+function(func, top.only = F, pos = NULL, ...)
+{
+# To print to screen (usually) a function with its directory, date, etc
+# If it is not desired to have more than 1 match for "func", max=1 can
+#   be put in the ... part 
+    cat("*****************************************************")
+    cat("\n")
+    fun.text <- as.character(substitute(func))
+    if(is.null(pos))
+       pos <- find.pos(find(fun.text), search())
+    pos1 <- pos[1]
+    if(pos1 == 1)
+       direc <- paste(unix("pwd"), "/.Data/", sep = "")
+    else direc <- paste(search()[pos1], "/", sep = "")
+    dir.info <- unix(paste("ls -la ", direc, fun.text, sep = ""))
+    if(top.only) {
+       for(i in pos) {
+          if(i == 1)
+             direc <- paste(unix("pwd"), "/.Data/", sep = "")
+          else direc <- paste(search()[i], "/", sep = "")
+          dir.info <- unix(paste("ls -la ", direc, fun.text, sep = ""))
+          print(dmodes(fun.text, pos = i, ...))
+          show.info <- substring(dir.info, 55, nchar(dir.info))
+          cat(paste("Location:", show.info, "\n"))
+       }
+       return(invisible())
+    }
+    else {
+       print(dmodes(fun.text, pos = pos, ...))
+       show.info <- substring(dir.info, 55, nchar(dir.info))
+       cat(paste("Location:", show.info, "\n"))
+       cat("*****************************************************")
+       cat("\n\n")
+       oldoptions <- options(width = 88)
+       on.exit(options(oldoptions))
+       get(fun.text, pos)
+    }
+}

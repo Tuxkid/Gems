@@ -1,0 +1,8 @@
+  Listing of: relevel.default
+  Located in: /home/hrapgc/Rstuff/Gems
+Last updated: 03/09/1999 
+**************************************
+
+"relevel.default" <-
+function(x, ref, ...)
+stop("relevel only for factors")

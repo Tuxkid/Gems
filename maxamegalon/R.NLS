@@ -1,0 +1,16 @@
+  Listing of: NLS
+  Located in: /home/pat/Rstuff/Gems
+Last updated: 05/02/2002 
+**************************************
+
+"NLS" <-
+function()
+{
+  ## Purpose:  attaches nls example library
+  ## ----------------------------------------------------------------------
+  ## Arguments:
+  ## ----------------------------------------------------------------------
+  ## Author: Zaphod Beeblebrox, Date:  5 Feb 2002, 16:22
+library(NISTnls, lib.loc = "/home/pat/Rstuff/library/")
+
+}

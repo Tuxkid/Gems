@@ -1,0 +1,23 @@
+  Listing of: text.some
+  Located in: /home/pat/Rstuff/Gems
+Last updated: 31/05/2002 
+**************************************
+
+"text.some" <-
+function(outfile = "write.fn.src", oblist =NULL)
+{
+## creates source file to list some functions in current directory
+  src.comm <- ppaste("source('", outfile, "')")    # to use src file
+  if(is.null(oblist))
+  oblist <- ls(pos = 1)
+  new.function <- 0    # no of functions to write
+  for(i in oblist) {
+    if(is.function(get(i))) {
+      source.line <- ppaste("write.function(", i, ")")
+      write(source.line, file = outfile, append = TRUE)
+      new.function <- new.function + 1
+    }
+  }
+  cat(paste("Now you can write", new.function, "functions using:\n", src.comm,
+            "\n"))
+}

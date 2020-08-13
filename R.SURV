@@ -1,0 +1,7 @@
+  Listing of: SURV
+  Located in: /home/hrapgc/Rstuff/Gems
+Last updated: 27/04/2001 
+**************************************
+
+"SURV" <-
+function() library(survival5, lib.loc = "/home/hrapgc/patrick/library")

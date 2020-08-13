@@ -1,0 +1,12 @@
+  Listing of: get.col.names
+  Located in: /home/hrapgc/Rstuff/Gems
+Last updated: 13/06/2000 
+**************************************
+
+"get.col.names" <-
+function(x, patt = ".D")
+{
+# Gets the names of x that fit a particular pattern patt
+    col.names <- names(x)
+    y <- col.names[grep(patt, col.names)]
+}

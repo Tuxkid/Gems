@@ -1,0 +1,11 @@
+  Listing of: MASS
+  Located in: /home/hrapgc/Rstuff/Gems
+Last updated: 20/04/2001 
+**************************************
+
+"MASS" <-
+function()
+  {
+                                        # Installs MASS library
+    library(MASS, lib.loc = "/home/hrapgc/patrick/library")
+  }

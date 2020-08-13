@@ -1,0 +1,22 @@
+  Listing of: text.lot
+  Located in: /home/hrapgc/Rstuff/Gems
+Last updated: 04/04/2001 
+**************************************
+
+"text.lot" <-
+function(outfile = "write.fn.src")
+{
+                                        # creates source file to list all functions
+  src.comm <- ppaste("source('", outfile, "')")    # to use src file
+  oblist <- ls(pos = 1)
+  new.function <- 0    # no of functions to write
+  for(i in oblist) {
+    if(is.function(get(i))) {
+      source.line <- ppaste("write.function(", i, ")")
+      write(source.line, file = outfile, append = TRUE)
+      new.function <- new.function + 1
+    }
+  }
+  cat(paste("Now you can write", new.function, "functions using:\n", src.comm,
+            "\n"))
+}

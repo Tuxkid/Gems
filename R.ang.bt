@@ -1,0 +1,10 @@
+  Listing of: ang.bt
+  Located in: /home/hrapgc/Rstuff/Gems
+Last updated: 15/12/1995 
+**************************************
+
+"ang.bt" <-
+function(y)
+{
+    (sin(atan(1)/45 * y))^2 * 100
+}

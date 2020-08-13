@@ -1,0 +1,7 @@
+MASS <-
+function()
+  {
+                                        # Installs MASS library
+    library(MASS, lib.loc = "/home/hrapgc/Rstuff/library")
+  }
+

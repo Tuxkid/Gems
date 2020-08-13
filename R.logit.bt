@@ -1,0 +1,10 @@
+  Listing of: logit.bt
+  Located in: /home/hrapgc/Rstuff/Gems
+Last updated: 21/08/1996 
+**************************************
+
+"logit.bt" <-
+function(x)
+{
+    p <- exp(x)/(1 + exp(x))
+}

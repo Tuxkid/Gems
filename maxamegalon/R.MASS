@@ -1,0 +1,11 @@
+  Listing of: MASS
+  Located in: /home/pat/Rstuff/Gems
+Last updated: 21/03/2002 
+**************************************
+
+"MASS" <-
+function()
+  {
+### Installs MASS library
+    library(MASS, lib.loc = "/home/pat/Rstuff/library")
+  }

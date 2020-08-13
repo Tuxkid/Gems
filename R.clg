@@ -1,0 +1,12 @@
+  Listing of: clg
+  Located in: /home/hrapgc/Rstuff/Gems
+Last updated: 09/05/1997 
+**************************************
+
+"clg" <-
+function()
+{
+# Clears graphics window
+    plot(0, 0, new = T, xaxt = "n", pch = " ", yaxt = "n", bty = "n", xlab = "",
+       ylab = "")
+}

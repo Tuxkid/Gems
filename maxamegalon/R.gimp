@@ -1,0 +1,17 @@
+  Listing of: gimp
+  Located in: /home/pat/Rstuff/Gems
+Last updated: 15/04/2002 
+**************************************
+
+"gimp" <-
+function(file = NULL)
+{
+  ## Purpose:
+  ## ----------------------------------------------------------------------
+  ## Arguments:
+  ## ----------------------------------------------------------------------
+  ## Author: Zaphod Beeblebrox, Date: 15 Apr 2002, 11:26
+if(is.null(file))
+  system("gimp &")
+else system(paste("gimp",file,"&"))
+}

@@ -1,0 +1,12 @@
+  Listing of: lattice
+  Located in: /home/pat/Rstuff/Gems
+Last updated: 29/10/2001 
+**************************************
+
+"lattice" <-
+function()
+  {
+### Installs grid and lattice library
+    library(grid, lib.loc = "/home/pat/Rstuff/library/")
+    library(lattice, lib.loc = "/home/pat/Rstuff/library/")
+  }

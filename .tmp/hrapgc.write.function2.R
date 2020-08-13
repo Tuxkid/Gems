@@ -1,0 +1,37 @@
+write.function2 <- function(x)
+{
+### Purpose:- Writes functions to .tmp/ directory
+### ----------------------------------------------------------------------
+### Modified from:- write.function
+### ----------------------------------------------------------------------
+### Arguments:- 
+### ----------------------------------------------------------------------
+### Author:-   Patrick Connolly, Date:- 29 Aug 2012, 13:26
+### ----------------------------------------------------------------------
+### Revisions:- 
+  fun.name <- as.character(substitute(x))
+  filedate <- comment(get(fun.name))
+  location <- system("pwd", TRUE)
+  file.name <- ppaste(location,"/.tmp/hrapgc.", fun.name, ".R")
+  dump(fun.name, file = file.name, append = TRUE)
+}
+
+write.function2 <-
+function(x)
+{
+### Purpose:- Writes functions to .tmp/ directory
+### ----------------------------------------------------------------------
+### Modified from:- write.function
+### ----------------------------------------------------------------------
+### Arguments:- 
+### ----------------------------------------------------------------------
+### Author:-   Patrick Connolly, Date:- 29 Aug 2012, 13:26
+### ----------------------------------------------------------------------
+### Revisions:- 
+  fun.name <- as.character(substitute(x))
+  filedate <- comment(get(fun.name))
+  location <- system("pwd", TRUE)
+  file.name <- ppaste(location,"/.tmp/hrapgc.", fun.name, ".R")
+  dump(fun.name, file = file.name, append = TRUE)
+}
+

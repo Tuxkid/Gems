@@ -1,0 +1,10 @@
+  Listing of: cloglog
+  Located in: /home/hrapgc/Rstuff/Gems
+Last updated: 16/04/1996 
+**************************************
+
+"cloglog" <-
+function(pr)
+{
+    log( - log(1 - pr))
+}

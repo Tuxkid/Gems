@@ -1,0 +1,14 @@
+  Listing of: rms
+  Located in: /home/hrapgc/Rstuff/Gems
+Last updated: 30/11/1996 
+**************************************
+
+"rms" <-
+function(x, na.rm = T, zero.rm = F)
+{
+    if(na.rm)
+       x <- x[!is.na(x)]
+    if(zero.rm)
+       x <- x[abs(x) > 0]
+    sqrt(mean(x^2))
+}

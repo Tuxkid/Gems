@@ -1,0 +1,23 @@
+  Listing of: lat.set
+  Located in: /home/pat/Rstuff/Gems
+Last updated: 24/04/2002 
+**************************************
+
+"lat.set" <-
+function(setting = par.xlab.text, subsetting = cex, to = 1.3)
+{
+  ## Purpose: Change trellis settings in one move
+  ## ----------------------------------------------------------------------
+  ## Arguments:
+  ##  setting    -- which setting is to be changed
+  ##                  (a name of a list from trellis.settings)
+  ##  subsetting -- which part of that list
+  ##  to         -- what are we changing it to
+  ## ----------------------------------------------------------------------
+  ## Author: Patrick Connolly, Date: 19 Apr 2002, 10:06
+
+x <- trellis.settings[[as.character(substitute(setting))]]
+x[[as.character(substitute(subsetting))]] <- to
+trellis.par.set(as.character(substitute(setting)), x)
+
+}

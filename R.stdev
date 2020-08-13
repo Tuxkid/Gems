@@ -1,0 +1,14 @@
+  Listing of: stdev
+  Located in: /home/hrapgc/Rstuff/Gems
+Last updated: 21/09/1998 
+**************************************
+
+"stdev" <-
+function(x, na.rm = F)
+{
+    if(na.rm)
+       x <- x[!is.na(x)]
+    if(length(x) == 0)
+       NA
+    else sqrt(var(x))
+}

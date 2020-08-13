@@ -1,0 +1,12 @@
+  Listing of: s.tapply
+  Located in: /home/hrapgc/Rstuff/Gems
+Last updated: 11/04/1998 
+**************************************
+
+"s.tapply" <-
+function(x, y, z, ...)
+{
+### Counteracts tapply's propensity to return in sorted index order
+###  instead of the order in which they were
+    tapply(x, y, z, ...)[(unique(y))]
+}

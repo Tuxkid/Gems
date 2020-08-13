@@ -1,0 +1,11 @@
+  Listing of: cloglog.bt
+  Located in: /home/hrapgc/Rstuff/Gems
+Last updated: 24/11/1997 
+**************************************
+
+"cloglog.bt" <-
+function(x)
+{
+# To calculate the proportion that gives the known complememtary log log value
+    1 - exp( - exp(x))
+}

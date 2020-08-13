@@ -1,0 +1,15 @@
+  Listing of: save.new
+  Located in: /home/hrapgc/Rstuff/Gems
+Last updated: 27/04/2001 
+**************************************
+
+"save.new" <-
+function(neuobj, gem.pos = NULL)
+{
+                                        # For saving a new function to the Gems database
+  if(is.null(gem.pos)) gem.pos <- grep("Gems", search())
+  fun.name <- deparse(substitute(neuobj))
+  assign(fun.name, neuobj, pos = gem.pos)
+  save(list = ls(all = TRUE, pos = gem.pos), file = substring(search()[
+                                               gem.pos], 6))
+}

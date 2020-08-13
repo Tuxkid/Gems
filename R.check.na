@@ -1,0 +1,12 @@
+  Listing of: check.na
+  Located in: /home/hrapgc/Rstuff/Gems
+Last updated: 21/09/1997 
+**************************************
+
+"check.na" <-
+function(df)
+{
+# Returns the number of NAs in any column of a dataframe
+    sapply(df, function(x)
+    sum(is.na(x)))
+}
